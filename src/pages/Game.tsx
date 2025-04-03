@@ -4,7 +4,7 @@ import GameScreen from '../components/GameScreen';
 
 const Game = () => {
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full h-screen overflow-hidden bg-black">
       <GameScreen />
     </div>
   );
