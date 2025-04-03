@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const StartScreen: React.FC = () => {
   const [showStart, setShowStart] = useState(false);
   const [blinkStart, setBlinkStart] = useState(false);
+  const [cloudPosition1, setCloudPosition1] = useState(0);
+  const [cloudPosition2, setCloudPosition2] = useState(30);
   const navigate = useNavigate();
 
   // Logo animation effect
@@ -26,6 +28,16 @@ const StartScreen: React.FC = () => {
     
     return () => clearInterval(interval);
   }, [showStart]);
+
+  // Cloud animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCloudPosition1(prev => (prev > 100 ? -20 : prev + 0.2));
+      setCloudPosition2(prev => (prev > 100 ? -30 : prev + 0.15));
+    }, 50);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   const handleStart = () => {
     navigate('/game');
@@ -51,18 +63,52 @@ const StartScreen: React.FC = () => {
              backgroundSize: '8px 8px'
            }} />
       
-      {/* Pixel clouds */}
-      <div className="absolute w-full h-full pointer-events-none">
-        <div className="absolute bottom-[20%] left-[10%] w-24 h-12 bg-white pixelated" style={{
-          clipPath: 'polygon(0% 50%, 25% 25%, 75% 25%, 100% 50%, 75% 75%, 25% 75%)'
-        }}></div>
-        <div className="absolute bottom-[30%] left-[30%] w-32 h-16 bg-white pixelated" style={{
-          clipPath: 'polygon(0% 50%, 20% 25%, 80% 25%, 100% 50%, 80% 75%, 20% 75%)'
-        }}></div>
-        <div className="absolute bottom-[15%] left-[60%] w-28 h-14 bg-white pixelated" style={{
-          clipPath: 'polygon(0% 50%, 25% 25%, 75% 25%, 100% 50%, 75% 75%, 25% 75%)'
-        }}></div>
+      {/* Sky background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-game-blue to-game-dark-blue pixelated"></div>
+      
+      {/* Ground */}
+      <div className="absolute bottom-0 w-full h-[20%] bg-game-green pixelated"></div>
+      
+      {/* Grass tufts */}
+      <div className="absolute bottom-[20%] left-[10%] w-8 h-4 bg-game-light-green pixelated" 
+           style={{ clipPath: 'polygon(0% 100%, 20% 0%, 40% 100%, 60% 0%, 80% 100%, 100% 0%, 100% 100%)' }}></div>
+      <div className="absolute bottom-[20%] left-[25%] w-6 h-3 bg-game-light-green pixelated" 
+           style={{ clipPath: 'polygon(0% 100%, 20% 0%, 40% 100%, 60% 0%, 80% 100%, 100% 0%, 100% 100%)' }}></div>
+      <div className="absolute bottom-[20%] left-[45%] w-10 h-5 bg-game-light-green pixelated" 
+           style={{ clipPath: 'polygon(0% 100%, 20% 0%, 40% 100%, 60% 0%, 80% 100%, 100% 0%, 100% 100%)' }}></div>
+      <div className="absolute bottom-[20%] left-[75%] w-8 h-4 bg-game-light-green pixelated" 
+           style={{ clipPath: 'polygon(0% 100%, 20% 0%, 40% 100%, 60% 0%, 80% 100%, 100% 0%, 100% 100%)' }}></div>
+      
+      {/* Pixel house */}
+      <div className="absolute bottom-[20%] right-[15%] pixelated">
+        {/* House body */}
+        <div className="w-28 h-20 bg-game-orange pixelated"></div>
+        {/* Roof */}
+        <div className="absolute -top-10 -left-2 w-32 h-10 bg-red-800 pixelated"
+             style={{ clipPath: 'polygon(0% 100%, 50% 0%, 100% 100%)' }}></div>
+        {/* Door */}
+        <div className="absolute bottom-0 left-4 w-8 h-12 bg-yellow-900 pixelated"></div>
+        {/* Window */}
+        <div className="absolute top-4 right-4 w-8 h-8 bg-yellow-200 pixelated"
+             style={{ 
+               boxShadow: 'inset 2px 0 0 rgba(0,0,0,0.3), inset 0 2px 0 rgba(0,0,0,0.3), inset -2px 0 0 rgba(0,0,0,0.3), inset 0 -2px 0 rgba(0,0,0,0.3)',
+               border: '2px solid #000'
+             }}></div>
+        <div className="absolute top-4 right-4 w-4 h-8 bg-yellow-200 pixelated"></div>
+        <div className="absolute top-4 right-8 w-4 h-8 bg-yellow-100 pixelated"></div>
       </div>
+      
+      {/* Moving clouds */}
+      <div className="absolute top-[15%] w-24 h-12 bg-white pixelated" 
+           style={{
+             left: `${cloudPosition1}%`,
+             clipPath: 'polygon(0% 50%, 25% 25%, 75% 25%, 100% 50%, 75% 75%, 25% 75%)'
+           }}></div>
+      <div className="absolute top-[30%] w-32 h-16 bg-white pixelated" 
+           style={{
+             left: `${cloudPosition2}%`,
+             clipPath: 'polygon(0% 50%, 20% 25%, 80% 25%, 100% 50%, 80% 75%, 20% 75%)'
+           }}></div>
       
       {/* Flying monster silhouette */}
       <div className="absolute bottom-[40%] left-[20%] w-24 h-16 bg-black pixelated" 
@@ -76,19 +122,18 @@ const StartScreen: React.FC = () => {
              style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}></div>
       </div>
       
-      {/* Logo container */}
+      {/* Logo container - removed the background */}
       <div className="relative animate-float mb-8 z-10">
-        <div className="absolute inset-0 w-full h-full bg-purple-600 opacity-20 transform translate-x-2 translate-y-2 pixelated"></div>
         <img 
           src="/lovable-uploads/f6e7913e-c018-43d1-ac8a-4282d127a999.png" 
           alt="52G Monster Logo" 
           className="pixelated w-[280px] md:w-[400px] h-auto relative z-10"
         />
         
-        {/* Subtitle with pixel border */}
+        {/* Updated subtitle with pixel border */}
         <div className="mt-4 mx-auto w-fit pixel-border">
           <div className="font-pixel text-white text-sm md:text-base bg-red-600 px-4 py-1">
-            POCKET MONSTERS
+            52G MONSTER
           </div>
         </div>
       </div>
