@@ -43,47 +43,55 @@ const StartScreen: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-game-blue">
-      {/* Background pattern - pixelated grid */}
-      <div className="absolute inset-0 w-full h-full opacity-10" 
-           style={{ 
-             backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-             backgroundSize: '20px 20px'
-           }} />
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-game-blue overflow-hidden">
+      {/* Pixel clouds */}
+      <div className="absolute w-full h-full">
+        <div className="absolute bottom-[20%] left-[10%] w-24 h-12 bg-white rounded-full"></div>
+        <div className="absolute bottom-[30%] left-[30%] w-32 h-16 bg-white rounded-full"></div>
+        <div className="absolute bottom-[15%] left-[60%] w-28 h-14 bg-white rounded-full"></div>
+        <div className="absolute bottom-[25%] left-[80%] w-20 h-10 bg-white rounded-full"></div>
+      </div>
       
-      {/* Logo container with animation */}
-      <div className="relative animate-float mb-8 mt-[-80px]">
+      {/* Flying monster silhouette */}
+      <div className="absolute bottom-[40%] left-[20%] w-24 h-16 bg-black pixelated" 
+           style={{ 
+             clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 60%, 70% 90%, 50% 70%, 30% 90%, 0% 60%, 0% 30%)'
+           }}>
+        {/* Sparkle effects */}
+        <div className="absolute -right-1 -top-1 w-3 h-3 bg-yellow-300 animate-pulse-fade" style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}></div>
+        <div className="absolute -right-4 top-6 w-2 h-2 bg-yellow-300 animate-pulse-fade delay-150" style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}></div>
+      </div>
+      
+      {/* Logo container */}
+      <div className="relative animate-float mb-8 mt-[-80px] z-10">
+        <div className="absolute inset-0 w-full h-full bg-purple-600 opacity-20 transform translate-x-1 translate-y-1"></div>
         <img 
           src="/lovable-uploads/f6e7913e-c018-43d1-ac8a-4282d127a999.png" 
           alt="52G Monster Logo" 
-          className="pixelated w-[320px] md:w-[500px] h-auto"
+          className="pixelated w-[320px] md:w-[500px] h-auto relative z-10"
         />
+        
+        {/* Subtitle */}
+        <div className="mt-2 font-pixel text-red-600 text-sm md:text-lg tracking-wider drop-shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+          POCKET MONSTERS
+        </div>
       </div>
       
       {/* Press Start button */}
       {showStart && (
         <div 
           onClick={handleStart}
-          className={`mt-12 cursor-pointer ${blinkStart ? 'opacity-100' : 'opacity-30'} transition-opacity`}
+          className={`mt-8 cursor-pointer bg-white bg-opacity-80 px-8 py-2 border-4 border-black ${blinkStart ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}
         >
-          <div className="font-pixel text-white text-lg md:text-2xl pixel-text">
-            Press Start
+          <div className="font-pixel text-black text-lg md:text-xl">
+            PRESS START
           </div>
         </div>
       )}
       
-      {/* Decorative pixel monsters */}
-      <div className="absolute bottom-8 left-8 pixelated w-16 h-16 bg-game-orange" 
-           style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%)' }} />
-      
-      <div className="absolute top-12 right-12 pixelated w-12 h-12 bg-game-green" 
-           style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
-      
-      <div className="absolute bottom-12 right-16 pixelated w-10 h-10 animate-pulse-fade bg-game-orange" />
-      
-      {/* Copyright text */}
-      <div className="absolute bottom-4 text-white text-xs font-pixel opacity-70">
-        © 2024 52G MONSTER
+      {/* Game studio logo */}
+      <div className="absolute bottom-8 font-pixel text-xs md:text-sm text-white drop-shadow-[1px_1px_0px_rgba(0,0,0,0.8)]">
+        ©2024 GAME FREAK inc.
       </div>
     </div>
   );

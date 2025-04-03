@@ -111,6 +111,7 @@
 @layer utilities {
   .pixelated {
     image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
   
   .pixel-borders {
@@ -125,6 +126,22 @@
     text-shadow: 2px 2px 0 black;
     letter-spacing: 1px;
   }
+  
+  .pixel-border {
+    position: relative;
+    border: 4px solid black;
+  }
+  
+  .pixel-border::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: -4px;
+    bottom: -4px;
+    background: black;
+    z-index: -1;
+  }
 }
 
 @font-face {
@@ -138,4 +155,9 @@
 .font-pixel {
   font-family: 'PressStart2P', monospace;
   text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
 }
